@@ -6,21 +6,36 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "scrape-match": "ts-node scripts/scraper/scrapeMatchToDb.ts"
   },
   "dependencies": {
+    "@prisma/client": "5.22.0",
+    "axios": "^1.19.0",
+    "cheerio": "^1.2.0",
+    "iconv-lite": "^0.7.3",
     "next": "16.3.1",
+    "puppeteer": "^25.8.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "rss-parser": "^3.13.0"
   },
   "devDependencies": {
+    "@prisma/config": "^7.9.1",
     "@tailwindcss/postcss": "^4",
+    "@types/iconv-lite": "^0.0.1",
     "@types/node": "^20",
+    "@types/puppeteer": "^5.4.7",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.5.4",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
-    "tailwindcss": "^4",
+    "postcss": "^8.5.26",
+    "prisma": "5.22.0",
+    "tailwindcss": "^3.4.19",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

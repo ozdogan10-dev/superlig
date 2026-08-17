@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  tffId       String   @unique
+  name        String
+  logoUrl     String?
+  manager     String?
+  stadiumId   String?
+  stadium     Stadium? @relation(fields: [stadiumId], references: [id])
+  players     Player[]
+  homeMatches Match[]  @relation("HomeMatches")
+  awayMatches Match[]  @relation("AwayMatches")
+  lineups     Lineup[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Stadium {
+  id        String   @id @default(cuid())
+  name      String
+  location  String?
+  capacity  String?
+  teams     Team[]
+  matches   Match[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Player {
+  id        String   @id @default(cuid())
+  tffId     String   @unique
+  name      String
+  position  String?
+  goals     Int      @default(0)
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  events    MatchEvent[]
+  lineups   Lineup[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Referee {
+  id        String   @id @default(cuid())
+  tffId     String   @unique
+  name      String
+  role      String?
+  matches   Match[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Match {
+  id            String   @id @default(cuid())
+  tffId         String   @unique
+  homeTeamId    String
+  awayTeamId    String
+  homeTeam      Team     @relation("HomeMatches", fields: [homeTeamId], references: [id])
+  awayTeam      Team     @relation("AwayMatches", fields: [awayTeamId], references: [id])
+  homeScore     Int?
+  awayScore     Int?
+  homeManager   String?
+  awayManager   String?
+  date          DateTime?
+  stadiumId     String?
+  stadium       Stadium? @relation(fields: [stadiumId], references: [id])
+  week          Int?
+  referees      Referee[]
+  events        MatchEvent[]
+  lineups       Lineup[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model MatchEvent {
+  id        String   @id @default(cuid())
+  matchId   String
+  match     Match    @relation(fields: [matchId], references: [id])
+  playerId  String
+  player    Player   @relation(fields: [playerId], references: [id])
+  type      String   // GOAL, YELLOW_CARD, RED_CARD
+  minute    String   // String in case of "90+2"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lineup {
+  id               String   @id @default(cuid())
+  matchId          String
+  match            Match    @relation(fields: [matchId], references: [id])
+  teamId           String
+  team             Team     @relation(fields: [teamId], references: [id])
+  playerId         String
+  player           Player   @relation(fields: [playerId], references: [id])
+  isStartingEleven Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}

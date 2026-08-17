@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏆 Trendyol Süper Lig Veri Platformu (2026-2027)
 
-## Getting Started
+Bu proje, Trendyol Süper Lig'in 2026-2027 sezonuna ait güncel maç, takım, puan durumu ve fikstür verilerini toplayan, saklayan ve kullanıcı dostu modern bir arayüzle sunan kapsamlı bir web uygulamasıdır. Veriler TFF (Türkiye Futbol Federasyonu) ve çeşitli kaynaklardan otomatik olarak çekilmektedir (web scraping).
 
-First, run the development server:
+## ✨ Özellikler
+
+- **Canlı Veri:** TFF üzerinden otomatik veri çekme ve veritabanına kaydetme.
+- **Puan Durumu ve Fikstür:** Süper Lig takımlarının güncel puan durumu, fikstürü ve maç istatistikleri.
+- **Modern Arayüz:** Tailwind CSS ile geliştirilmiş, estetik, hızlı ve mobil uyumlu kullanıcı arayüzü.
+- **Hızlı ve SEO Uyumlu:** Next.js 16 (App Router) ve React Server Components (RSC) ile yüksek performans.
+
+## 🛠️ Teknoloji Yığını
+
+- **Frontend:** Next.js 16, React 19, Tailwind CSS
+- **Backend:** Next.js Server Components / Actions, Node.js
+- **Veritabanı:** Prisma ORM, SQLite (Geliştirme için)
+- **Veri Kazıma (Scraping):** Puppeteer, Cheerio, RSS Parser, Axios
+- **Dil:** TypeScript
+
+## 🚀 Başlangıç
+
+Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyin:
+
+### Önkoşullar
+- Node.js (v20 veya üzeri önerilir)
+- npm, yarn, pnpm veya bun
+
+### Kurulum
+
+1. Depoyu klonlayın ve proje dizinine gidin:
+   ```bash
+   git clone <repo-url>
+   cd superlig-app
+   ```
+
+2. Bağımlılıkları yükleyin:
+   ```bash
+   npm install
+   ```
+
+3. Çevresel değişkenleri ayarlayın (Gerekirse dizinde bir `.env` dosyası oluşturun).
+
+4. Veritabanını oluşturun ve Prisma Client'ı güncelleyin:
+   ```bash
+   npx prisma db push
+   npx prisma generate
+   ```
+
+### Geliştirme Sunucusunu Başlatma
+
+Uygulamayı çalıştırmak için:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tarayıcınızdan [http://localhost:3000](http://localhost:3000) adresine giderek platformu görüntüleyebilirsiniz. Sayfayı düzenlemeye başlamak için `src/app/page.tsx` dosyasında değişiklik yapabilirsiniz.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🤖 Veri Kazıma (Scraping) İşlemleri
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Maç verilerini ve diğer istatistikleri dış kaynaklardan (TFF vb.) çekip veritabanını güncellemek için projede özel betikler bulunmaktadır.
 
-## Learn More
+Örneğin, maç verilerini çekip veritabanına işlemek için aşağıdaki komutu kullanabilirsiniz:
+```bash
+npm run scrape-match
+```
+*Bu komut, `scripts/scraper/scrapeMatchToDb.ts` dosyasını `ts-node` aracılığıyla çalıştırır.*
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Proje Yapısı
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `src/app`: Next.js App Router yapısı (Sayfalar, Route'lar, Layoutlar).
+- `src/components`: Yeniden kullanılabilir UI bileşenleri.
+- `src/lib`: Prisma Client bağlantısı ve diğer yardımcı kütüphaneler.
+- `prisma`: Veritabanı şeması (`schema.prisma`) ve SQLite yerel dosyası (`dev.db`).
+- `scripts`: Web scraping ve veri çekme betikleri.
+- `public`: Statik görseller, fontlar ve ikonlar.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Katkıda Bulunma
 
-## Deploy on Vercel
+1. Bu depoyu forklayın.
+2. Yeni bir dal (branch) oluşturun (`git checkout -b feature/yeni-ozellik`).
+3. Değişikliklerinizi commit edin (`git commit -m 'Yeni özellik eklendi'`).
+4. Dalınızı (branch) gönderin (`git push origin feature/yeni-ozellik`).
+5. Bir Pull Request açın.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> **Not:** Proje standartları, geliştirme mimarisi ve yapay zeka ajanları (Antigravity vb.) için özel talimatlar hakkında daha fazla bilgi edinmek isterseniz lütfen [AGENTS.md](./AGENTS.md) dosyasını inceleyin.
