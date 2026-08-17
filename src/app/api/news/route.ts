@@ -11,14 +11,16 @@ export const revalidate = 600; // Cache for 10 minutes
 
 export async function GET() {
   try {
-    // Try TRT Spor Super Lig RSS or General Sports
-    const feed = await parser.parseURL('https://www.trthaber.com/spor_articles.rss');
+    // Fetch from Anadolu Ajansı RSS for Futbol
+    const feed = await parser.parseURL('https://aa.com.tr/tr/rss/default?cat=futbol');
     
     // We only want 6-8 news items for the homepage
     const news = feed.items.slice(0, 8).map(item => {
-      // Extract image from enclosure or media:content if available
+      // Extract image from AA's image field, or fallback to others
       let imageUrl = null;
-      if (item.enclosure && item.enclosure.url) {
+      if (item.image) {
+        imageUrl = typeof item.image === 'string' ? item.image : (item.image.url || null);
+      } else if (item.enclosure && item.enclosure.url) {
         imageUrl = item.enclosure.url;
       } else if (item['media:content'] && item['media:content'].$) {
         imageUrl = item['media:content'].$.url;
